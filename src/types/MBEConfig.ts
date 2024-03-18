@@ -34,18 +34,18 @@ enum MBEFlow {
 }
 
 enum MBECtaButtonText {
-    BOOK_NOW = 'Book Now',
-    BUY_NOW = 'Buy Now',
-    RESERVE = 'Reserve',
-    ORDER_FOOD = 'Order Food'
+  BOOK_NOW = "Book Now",
+  BUY_NOW = "Buy Now",
+  RESERVE = "Reserve",
+  ORDER_FOOD = "Order Food",
 }
 
 enum PageCardSeeAllText {
-    SEE_ALL = 'See All'
+  SEE_ALL = "See All",
 }
 
 enum PageCardCtaButtonText {
-    BOOK
+  BOOK,
 }
 
 type MBEConfig = {
@@ -75,61 +75,61 @@ type MBEExtrasSetup = {
 };
 
 type MBEExtrasBusinessConfig = {
-    business: MBEBusinessPropertiesConfigData,
-    messenger_chat?: MBEMessengerChatConfigData,
-    catalog_feed_scheduled?: MBECatalogFeedConfigData,
-    page_cta?: MBEPageCtaConfigData,
-    page_card?: MBEPageCardConfigData,
-    ig_cta?: MBEIGCtaConfigData,
-    messenger_menu?: MBEMessengerMenuConfigData
-    thread_intent?: MBEThreadIntentConfigData
+  business: MBEBusinessPropertiesConfigData;
+  messenger_chat?: MBEMessengerChatConfigData;
+  catalog_feed_scheduled?: MBECatalogFeedConfigData;
+  page_cta?: MBEPageCtaConfigData;
+  page_card?: MBEPageCardConfigData;
+  ig_cta?: MBEIGCtaConfigData;
+  messenger_menu?: MBEMessengerMenuConfigData;
+  thread_intent?: MBEThreadIntentConfigData;
 };
 
 type MBEMessengerChatConfigData = {
-    enabled: boolean,
-    domains: string[]
-}
+  enabled: boolean;
+  domains: string[];
+};
 
 type MBECatalogFeedConfigData = {
-    enabled: boolean,
-    feed_url: string,
-}
+  enabled: boolean;
+  feed_url: string;
+};
 
 type MBEPageCtaConfigData = {
-    enabled: boolean,
-    cta_button_text: MBECtaButtonText,
-    cta_button_url: string,
-    below_button_text: string
-}
+  enabled: boolean;
+  cta_button_text: MBECtaButtonText;
+  cta_button_url: string;
+  below_button_text: string;
+};
 
 type MBEPageCardConfigData = {
-    enabled: boolean,
-    see_all_text: PageCardSeeAllText,
-    see_all_url: string,
-    cta_button_text: PageCardCtaButtonText
-}
+  enabled: boolean;
+  see_all_text: PageCardSeeAllText;
+  see_all_url: string;
+  cta_button_text: PageCardCtaButtonText;
+};
 
 type MBEIGCtaConfigData = {
-    enabled: boolean,
-    cta_button_text: MBECtaButtonText,
-    cta_button_url: string
-}
+  enabled: boolean;
+  cta_button_text: MBECtaButtonText;
+  cta_button_url: string;
+};
 
 type MBEMessengerMenuConfigData = {
-    enabled: boolean,
-    cta_button_text: MBECtaButtonText,
-    cta_button_url: string
-}
+  enabled: boolean;
+  cta_button_text: MBECtaButtonText;
+  cta_button_url: string;
+};
 
 type MBEThreadIntentConfigData = {
-    enabled: boolean,
-    cta_button_url: string
-}
+  enabled: boolean;
+  cta_button_url: string;
+};
 
 type MBEBusinessPropertiesConfigData = {
-    name: string
-}
+  name: string;
+};
 
 type MBEFlowConfigData = {
-    use_minimal_onboarding?: boolean;
+  use_minimal_onboarding?: boolean;
 };
