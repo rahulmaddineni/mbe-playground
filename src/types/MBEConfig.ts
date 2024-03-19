@@ -1,4 +1,4 @@
-enum BusinessVertical {
+export enum BusinessVertical {
   ECOMMERCE,
   APPOINTMENTS,
   RESERVATIONS,
@@ -9,7 +9,7 @@ enum BusinessVertical {
   MEASUREMENT_AND_OPTIMIZATION,
 }
 
-enum MBEFlow {
+export enum MBEFlow {
   ADS_MINIMAL,
   CATALOG_ADS,
   CHECKBOX_PLUGIN,
@@ -33,32 +33,32 @@ enum MBEFlow {
   MESSENGER_MARKETING,
 }
 
-enum MBECtaButtonText {
+export enum MBECtaButtonText {
   BOOK_NOW = "Book Now",
   BUY_NOW = "Buy Now",
   RESERVE = "Reserve",
   ORDER_FOOD = "Order Food",
 }
 
-enum PageCardSeeAllText {
+export enum PageCardSeeAllText {
   SEE_ALL = "See All",
 }
 
-enum PageCardCtaButtonText {
+export enum PageCardCtaButtonText {
   BOOK,
 }
 
-type MBEConfig = {
+export type MBEConfig = {
   extras: MBEExtrasConfig;
 };
 
-type MBEExtrasConfig = {
+export type MBEExtrasConfig = {
   setup: MBEExtrasSetup;
   business_config: MBEExtrasBusinessConfig;
   repeat: boolean;
 };
 
-type MBEExtrasSetup = {
+export type MBEExtrasSetup = {
   external_business_id: string;
   timezone: string;
   currency: string;
@@ -74,7 +74,7 @@ type MBEExtrasSetup = {
   flow_config: MBEFlowConfigData;
 };
 
-type MBEExtrasBusinessConfig = {
+export type MBEExtrasBusinessConfig = {
   business: MBEBusinessPropertiesConfigData;
   messenger_chat?: MBEMessengerChatConfigData;
   catalog_feed_scheduled?: MBECatalogFeedConfigData;
@@ -85,51 +85,51 @@ type MBEExtrasBusinessConfig = {
   thread_intent?: MBEThreadIntentConfigData;
 };
 
-type MBEMessengerChatConfigData = {
+export type MBEMessengerChatConfigData = {
   enabled: boolean;
   domains: string[];
 };
 
-type MBECatalogFeedConfigData = {
+export type MBECatalogFeedConfigData = {
   enabled: boolean;
   feed_url: string;
 };
 
-type MBEPageCtaConfigData = {
+export type MBEPageCtaConfigData = {
   enabled: boolean;
   cta_button_text: MBECtaButtonText;
   cta_button_url: string;
   below_button_text: string;
 };
 
-type MBEPageCardConfigData = {
+export type MBEPageCardConfigData = {
   enabled: boolean;
   see_all_text: PageCardSeeAllText;
   see_all_url: string;
   cta_button_text: PageCardCtaButtonText;
 };
 
-type MBEIGCtaConfigData = {
+export type MBEIGCtaConfigData = {
   enabled: boolean;
   cta_button_text: MBECtaButtonText;
   cta_button_url: string;
 };
 
-type MBEMessengerMenuConfigData = {
+export type MBEMessengerMenuConfigData = {
   enabled: boolean;
   cta_button_text: MBECtaButtonText;
   cta_button_url: string;
 };
 
-type MBEThreadIntentConfigData = {
+export type MBEThreadIntentConfigData = {
   enabled: boolean;
   cta_button_url: string;
 };
 
-type MBEBusinessPropertiesConfigData = {
+export type MBEBusinessPropertiesConfigData = {
   name: string;
 };
 
-type MBEFlowConfigData = {
+export type MBEFlowConfigData = {
   use_minimal_onboarding?: boolean;
 };
