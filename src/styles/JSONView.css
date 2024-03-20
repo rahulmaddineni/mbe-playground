@@ -1,0 +1,15 @@
+pre .key {
+  color: brown;
+}
+pre .string {
+  color: green;
+}
+pre .number {
+  color: darkorange;
+}
+pre .boolean {
+  color: blue;
+}
+pre .null {
+  color: magenta;
+}

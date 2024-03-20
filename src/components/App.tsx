@@ -1,6 +1,6 @@
 import React from "react";
-import "./styles/App.css";
-import MBEConfigForm from './MBEConfigForm.tsx'
+import "../styles/App.css";
+import MBEConfigForm from "./MBEConfigForm.tsx";
 
 function App() {
   return (
