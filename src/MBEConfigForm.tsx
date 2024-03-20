@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { MBEConfig, Timezones } from "./types/MBEConfig.ts";
+import {
+  MBEConfig,
+  Timezones,
+  currencyCodeOptions,
+} from "./types/MBEConfig.ts";
 import Select from "react-select";
 
 type Props = {};
@@ -24,6 +28,7 @@ const MBEConfigForm: React.FC<Props> = () => {
         setup: {
           external_business_id: "",
           timezone: "America/Los_Angeles",
+          currency: "USD",
         },
       },
     },
@@ -38,6 +43,10 @@ const MBEConfigForm: React.FC<Props> = () => {
   }));
   const handleTimezoneChange = (selectedOption) => {
     setValue("extras.setup.timezone", selectedOption.value);
+  };
+
+  const handleCurrencyChange = (selectedOption) => {
+    setValue("extras.setup.currency", selectedOption.value);
   };
 
   useEffect(() => {
@@ -76,6 +85,17 @@ const MBEConfigForm: React.FC<Props> = () => {
             (option) => option.value === "America/Los_Angeles"
           )}
           onChange={handleTimezoneChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="currency">Currency</label>
+        <Select
+          id="currency"
+          options={currencyCodeOptions}
+          defaultValue={currencyCodeOptions.find(
+            (option) => option.value === "USD"
+          )}
+          onChange={handleCurrencyChange}
         />
       </div>
       <button type="submit">Configure MBE</button>

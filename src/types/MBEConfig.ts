@@ -727,3 +727,230 @@ export const Timezones: string[] = [
   "WET",
   " Zulu",
 ];
+
+export const currencyCodeOptions: { label: string; value: string }[] = [
+  {
+    label: "Algerian Dinar (DZD)",
+    value: "DZD",
+  },
+  {
+    label: "Argentine Peso (ARS)",
+    value: "ARS",
+  },
+  {
+    label: "Australian Dollar (AUD)",
+    value: "AUD",
+  },
+  {
+    label: "Bangladeshi Taka (BDT)",
+    value: "BDT",
+  },
+  {
+    label: "Bolivian Boliviano (BOB)",
+    value: "BOB",
+  },
+  {
+    label: "Brazilian Real (BRL)",
+    value: "BRL",
+  },
+  {
+    label: "British Pound (GBP)",
+    value: "GBP",
+  },
+  {
+    label: "Canadian Dollar (CAD)",
+    value: "CAD",
+  },
+  {
+    label: "Chilean Peso (CLP)",
+    value: "CLP",
+  },
+  {
+    label: "Chinese Yuan (CNY)",
+    value: "CNY",
+  },
+  {
+    label: "Colombian Peso (COP)",
+    value: "COP",
+  },
+  {
+    label: "Costa Rican Colon (CRC)",
+    value: "CRC",
+  },
+  {
+    label: "Czech Koruna (CZK)",
+    value: "CZK",
+  },
+  {
+    label: "Danish Krone (DKK)",
+    value: "DKK",
+  },
+  {
+    label: "Egyptian Pounds (EGP)",
+    value: "EGP",
+  },
+  {
+    label: "Euro (EUR)",
+    value: "EUR",
+  },
+  {
+    label: "Guatemalan Quetza (GTQ)",
+    value: "GTQ",
+  },
+  {
+    label: "Honduran Lempira (HNL)",
+    value: "HNL",
+  },
+  {
+    label: "Hong Kong Dollar (HKD)",
+    value: "HKD",
+  },
+  {
+    label: "Hungarian Forint (HUF)",
+    value: "HUF",
+  },
+  {
+    label: "Iceland Krona (ISK)",
+    value: "ISK",
+  },
+  {
+    label: "Indian Rupee (INR)",
+    value: "INR",
+  },
+  {
+    label: "Indonesian Rupiah (IDR)",
+    value: "IDR",
+  },
+  {
+    label: "Israeli New Shekel (ILS)",
+    value: "ILS",
+  },
+  {
+    label: "Japanese Yen (JPY)",
+    value: "JPY",
+  },
+  {
+    label: "Kenyan Shilling (KES)",
+    value: "KES",
+  },
+  {
+    label: "Korean Won (KRW)",
+    value: "KRW",
+  },
+  {
+    label: "Macau Patacas (MOP)",
+    value: "MOP",
+  },
+  {
+    label: "Malaysian Ringgit (MYR)",
+    value: "MYR",
+  },
+  {
+    label: "Mexican Peso (MXN)",
+    value: "MXN",
+  },
+  {
+    label: "New Zealand Dollar (NZD)",
+    value: "NZD",
+  },
+  {
+    label: "Nicaraguan Cordoba (NIO)",
+    value: "NIO",
+  },
+  {
+    label: "Nigerian Naira (NGN)",
+    value: "NGN",
+  },
+  {
+    label: "Norwegian Krone (NOK)",
+    value: "NOK",
+  },
+  {
+    label: "Pakistani Rupee (PKR)",
+    value: "PKR",
+  },
+  {
+    label: "Paraguayan Guarani (PYG)",
+    value: "PYG",
+  },
+  {
+    label: "Peruvian Nuevo Sol (PEN)",
+    value: "PEN",
+  },
+  {
+    label: "Philippine Peso (PHP)",
+    value: "PHP",
+  },
+  {
+    label: "Polish Zloty (PLN)",
+    value: "PLN",
+  },
+  {
+    label: "Qatari Rials (QAR)",
+    value: "QAR",
+  },
+  {
+    label: "Romanian Leu (RON)",
+    value: "RON",
+  },
+  {
+    label: "Russian Ruble (RUB)",
+    value: "RUB",
+  },
+  {
+    label: "Saudi Arabian Riyal (SAR)",
+    value: "SAR",
+  },
+  {
+    label: "Singapore Dollar (SGD)",
+    value: "SGD",
+  },
+  {
+    label: "South African Rand (ZAR)",
+    value: "ZAR",
+  },
+  {
+    label: "Sri Lankan Rupee (LKR)",
+    value: "LKR",
+  },
+  {
+    label: "Swedish Krona (SEK)",
+    value: "SEK",
+  },
+  {
+    label: "Swiss Franc (CHF)",
+    value: "CHF",
+  },
+  {
+    label: "Taiwan Dollar (TWD)",
+    value: "TWD",
+  },
+  {
+    label: "Thai Baht (THB)",
+    value: "THB",
+  },
+  {
+    label: "Turkish Lira (TRY)",
+    value: "TRY",
+  },
+  {
+    label: "Uae Dirham (AED)",
+    value: "AED",
+  },
+  {
+    label: "United States Dollar (USD)",
+    value: "USD",
+  },
+  {
+    label: "Uruguay Peso (UYU)",
+    value: "UYU",
+  },
+  {
+    label: "Venezuelan Bolivar (VEF)",
+    value: "VEF",
+  },
+  {
+    label: "Vietnamese Dong (VND)",
+    value: "VND",
+  },
+];
