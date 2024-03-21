@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import {
   BusinessVertical,
   MBEConfig,
+  MBEFlow,
   Timezones,
   currencyCodeOptions,
 } from "../types/MBEConfig.ts";
@@ -32,12 +33,13 @@ const MBEConfigForm: React.FC<Props> = () => {
           timezone: "America/Los_Angeles",
           currency: "USD",
           business_vertical: BusinessVertical.ECOMMERCE,
+          channel: MBEFlow.DEFAULT,
         },
       },
     },
   });
 
-  const [formData, setFormData] = useState();
+  const [formData, setFormData] = useState<FormProps>();
 
   const generateRandomId = () => Math.random().toString(36).substring(2, 12);
   const isRandomExtBizIDChecked = watch("randomExtBizID");
@@ -62,6 +64,14 @@ const MBEConfigForm: React.FC<Props> = () => {
     setValue("extras.setup.business_vertical", selectedOption.value);
   };
 
+  const channelOptions = Object.values(MBEFlow).map((flow) => ({
+    value: flow,
+    label: flow,
+  }));
+  const handleChannelChange = (selectedOption) => {
+    setValue("extras.setup.channel", selectedOption.value);
+  };
+
   useEffect(() => {
     // Set Random External Business ID when toggled on
     if (isRandomExtBizIDChecked) {
@@ -77,7 +87,6 @@ const MBEConfigForm: React.FC<Props> = () => {
       <form
         onSubmit={handleSubmit((formData) => {
           setFormData(formData);
-          console.log(formData);
         })}
       >
         <div>
@@ -126,6 +135,17 @@ const MBEConfigForm: React.FC<Props> = () => {
               (option) => option.value === BusinessVertical.ECOMMERCE
             )}
             onChange={handleVerticalChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="channel">Channel</label>
+          <Select
+            id="channel"
+            options={channelOptions}
+            defaultValue={channelOptions.find(
+              (option) => option.value === MBEFlow.DEFAULT
+            )}
+            onChange={handleChannelChange}
           />
         </div>
         <button type="submit">Configure MBE</button>

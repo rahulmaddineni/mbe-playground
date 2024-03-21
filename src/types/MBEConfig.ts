@@ -10,27 +10,27 @@ export enum BusinessVertical {
 }
 
 export enum MBEFlow {
-  ADS_MINIMAL,
-  CATALOG_ADS,
-  CHECKBOX_PLUGIN,
-  CHECKBOX_PLUGIN_MARKETING,
-  COMMERCE,
-  COMMERCE_OFFSITE,
-  CONVERSIONS_API,
-  CONVERSIONS_API_MINIMAL,
-  CREATIVE,
-  CREATIVE_WITH_ASSETS,
-  CUSTOM_AUDIENCE,
-  CUSTOMER_DATA,
-  DEFAULT,
-  FB_SERVICES,
-  FEED,
-  AR_COMMERCE,
-  IG_CREATORS_AS_SELLERS,
-  LEAD_ADS,
-  MARKETPLACE,
-  MESSENGER_CHAT,
-  MESSENGER_MARKETING,
+  ADS_MINIMAL = "ADS_MINIMAL",
+  CATALOG_ADS = "CATALOG_ADS",
+  CHECKBOX_PLUGIN = "CHECKBOX_PLUGIN",
+  CHECKBOX_PLUGIN_MARKETING = "CHECKBOX_PLUGIN_MARKETING",
+  COMMERCE = "COMMERCE",
+  COMMERCE_OFFSITE = "COMMERCE_OFFSITE",
+  CONVERSIONS_API = "CONVERSIONS_API",
+  CONVERSIONS_API_MINIMAL = "CONVERSIONS_API_MINIMAL",
+  CREATIVE = "CREATIVE",
+  CREATIVE_WITH_ASSETS = "CREATIVE_WITH_ASSETS",
+  CUSTOM_AUDIENCE = "CUSTOM_AUDIENCE",
+  CUSTOMER_DATA = "CUSTOMER_DATA",
+  DEFAULT = "DEFAULT",
+  FB_SERVICES = "FB_SERVICES",
+  FEED = "FEED",
+  AR_COMMERCE = "AR_COMMERCE",
+  IG_CREATORS_AS_SELLERS = "IG_CREATORS_AS_SELLERS",
+  LEAD_ADS = "LEAD_ADS",
+  MARKETPLACE = "MARKETPLACE",
+  MESSENGER_CHAT = "MESSENGER_CHAT",
+  MESSENGER_MARKETING = "MESSENGER_MARKETING",
 }
 
 export enum MBECtaButtonText {
@@ -65,13 +65,16 @@ export type MBEExtrasSetup = {
   business_vertical: BusinessVertical;
   domain?: string;
   channel?: MBEFlow;
+  flow_config: MBEFlowConfigData;
+} & MBEExtraPreSelectAssets;
+
+export type MBEExtraPreSelectAssets = {
   business_manager_id?: string;
   ad_account_id?: string;
   page_id?: string;
   ig_profile_id?: string;
   pixel_id?: string;
   catalog_id?: string;
-  flow_config: MBEFlowConfigData;
 };
 
 export type MBEExtrasBusinessConfig = {
