@@ -35,6 +35,11 @@ const MBEConfigForm: React.FC<Props> = () => {
           business_vertical: BusinessVertical.ECOMMERCE,
           channel: MBEFlow.DEFAULT,
         },
+        business_config: {
+          business: {
+            name: "",
+          },
+        },
       },
     },
   });
@@ -86,6 +91,9 @@ const MBEConfigForm: React.FC<Props> = () => {
     <>
       <form
         onSubmit={handleSubmit((formData) => {
+          if (!formData.extras.business_config.business.name) {
+            formData.extras.business_config.business.name = "MBE Test Business";
+          }
           setFormData(formData);
         })}
       >
@@ -146,6 +154,15 @@ const MBEConfigForm: React.FC<Props> = () => {
               (option) => option.value === MBEFlow.DEFAULT
             )}
             onChange={handleChannelChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="businessName">Business Name</label>
+          <input
+            type="text"
+            id="businessName"
+            placeholder="Example Business"
+            {...register("extras.business_config.business.name")}
           />
         </div>
         <button type="submit">Configure MBE</button>
