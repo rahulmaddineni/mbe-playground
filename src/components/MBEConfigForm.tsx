@@ -91,6 +91,7 @@ const MBEConfigForm: React.FC<Props> = () => {
     <>
       <form
         onSubmit={handleSubmit((formData) => {
+          // Set example business name if input is empty
           if (!formData.extras.business_config.business.name) {
             formData.extras.business_config.business.name = "MBE Test Business";
           }
