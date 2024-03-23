@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "../styles/App.css";
 import MBEConfigForm from "./MBEConfigForm.tsx";
 import BuyNowStore from "./cta_stores/BuyNowStore/BuyNowStore.tsx";
+import MBEManageRedirect from "./MBEManageRedirect.tsx";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             <Route path="/" Component={MBEConfigForm} />
             <Route path="/buy-now" Component={BuyNowStore} />
+            <Route path="/manage" Component={MBEManageRedirect} />
           </Routes>
         </Router>
       </div>
