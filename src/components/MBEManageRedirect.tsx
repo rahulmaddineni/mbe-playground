@@ -7,17 +7,17 @@ const MBEManageRedirect: React.FC = () => {
   const [externalBizID, setExternalBizID] = useState("");
 
   useEffect(() => {
-    const hash = window.location.hash.substr(1);
+    const hash = window.location.hash.substring(1);
     const params = new URLSearchParams(hash);
     const token = params.get("access_token");
     const state = params.get("state");
 
     if (token && state) {
-      setToken(token);
-      setExternalBizID(state);
-
       // Remove the token and state from the URL
       window.location.hash = "";
+
+      setToken(token);
+      setExternalBizID(state);
     }
   }, [location]);
 
