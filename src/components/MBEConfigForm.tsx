@@ -9,13 +9,14 @@ import {
 } from "../types/MBEConfig.ts";
 import Select from "react-select";
 import JsonView from "./JSONView.tsx";
+import { buildUrl } from "../helpers/mbe_url_builder.ts";
 
 type Props = {};
 
 type FormConfigProps = {
   randomExtBizID: boolean;
 };
-type FormProps = MBEConfig & FormConfigProps;
+type FormProps = MBEConfig & { formConfig: FormConfigProps };
 
 const MBEConfigForm: React.FC<Props> = () => {
   const {
@@ -26,7 +27,9 @@ const MBEConfigForm: React.FC<Props> = () => {
     // formState: { errors },
   } = useForm<FormProps>({
     defaultValues: {
-      randomExtBizID: true,
+      formConfig: {
+        randomExtBizID: true,
+      },
       extras: {
         setup: {
           external_business_id: "",
@@ -40,14 +43,16 @@ const MBEConfigForm: React.FC<Props> = () => {
             name: "",
           },
         },
+        repeat: false,
       },
     },
   });
 
   const [formData, setFormData] = useState<FormProps>();
+  const [loginUrl, setLoginUrl] = useState<string>();
 
   const generateRandomId = () => Math.random().toString(36).substring(2, 12);
-  const isRandomExtBizIDChecked = watch("randomExtBizID");
+  const isRandomExtBizIDChecked = watch("formConfig.randomExtBizID");
 
   const timezoneOptions = Timezones.map((timezone) => ({
     value: timezone,
@@ -87,17 +92,22 @@ const MBEConfigForm: React.FC<Props> = () => {
     }
   }, [isRandomExtBizIDChecked, setValue]);
 
+  const onHandleSubmit = (formData: FormProps) => {
+    const { extras } = formData;
+    // Set example business name if input is empty
+    if (!extras.business_config.business.name) {
+      formData.extras.business_config.business.name = "MBE Test Business";
+    }
+    setFormData(formData);
+
+    // Set MBE Login URL
+    const url = buildUrl(extras);
+    setLoginUrl(url);
+  };
+
   return (
     <>
-      <form
-        onSubmit={handleSubmit((formData) => {
-          // Set example business name if input is empty
-          if (!formData.extras.business_config.business.name) {
-            formData.extras.business_config.business.name = "MBE Test Business";
-          }
-          setFormData(formData);
-        })}
-      >
+      <form onSubmit={handleSubmit(onHandleSubmit)}>
         <div>
           <label htmlFor="externalBusinessId">External Business ID</label>
           <input
@@ -110,7 +120,7 @@ const MBEConfigForm: React.FC<Props> = () => {
           <input
             id="randomExtBizID"
             type="checkbox"
-            {...register("randomExtBizID")}
+            {...register("formConfig.randomExtBizID")}
           />
         </div>
         <div>
@@ -169,6 +179,11 @@ const MBEConfigForm: React.FC<Props> = () => {
         <button type="submit">Configure MBE</button>
       </form>
       {formData && <JsonView data={formData} />}
+      {loginUrl && (
+        <button>
+          <a href={loginUrl}>Login</a>
+        </button>
+      )}
     </>
   );
 };

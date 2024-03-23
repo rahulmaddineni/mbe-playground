@@ -6,16 +6,18 @@ import BuyNowStore from "./cta_stores/BuyNowStore/BuyNowStore.tsx";
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <div className="title-block">
         <h1 className="title-text">MBE Playground</h1>
       </div>
-      <Router>
-        <Routes>
-          <Route path="/" Component={MBEConfigForm} />
-          <Route path="/buy-now" Component={BuyNowStore} />
-        </Routes>
-      </Router>
+      <div className="app-body">
+        <Router>
+          <Routes>
+            <Route path="/" Component={MBEConfigForm} />
+            <Route path="/buy-now" Component={BuyNowStore} />
+          </Routes>
+        </Router>
+      </div>
     </div>
   );
 }
