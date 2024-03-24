@@ -3,10 +3,10 @@ import { MBEExtrasConfig } from "../types/MBEConfig.ts";
 export const buildUrl = (extras: MBEExtrasConfig) => {
   const baseUrl = "https://facebook.com/dialog/oauth";
   const redirectUri =
-    process.env.NODE_ENV === "production"
+    (process.env.NODE_ENV === "production"
       ? "https://mbe-playground-app.onrender.com"
-      : window.location.origin // Local host redirect on local build
-      + '/manage';
+      : window.location.origin) + // Local host redirect on local build
+    "/manage";
   const appID = process.env.REACT_APP_APP_ID;
   if (appID === undefined) {
     return "";
