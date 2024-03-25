@@ -3,15 +3,41 @@ import express, { Request, Response } from "express";
 import path from "path";
 import https from "https";
 import fs from "fs";
+import axios from "axios";
 
 const app = express();
 // Replace with port used for local development, Don't forget to add https://localhost:{port}/manage redirect to Valid Oauth redirect list in FB Login app settings
-const port = process.env.PORT || 3002; 
+const port = process.env.PORT || 3002;
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../build")));
 
-// Put all API endpoints under '/api'
+// API
+app.get("/mbe/install_info", async (req: Request, res: Response) => {
+  const { fbe_external_business_id, access_token } = req.query;
+  if (
+    typeof fbe_external_business_id !== "string" ||
+    typeof access_token !== "string"
+  ) {
+    return res.status(400).json({ message: "Invalid query parameters" });
+  }
+  try {
+    console.log(fbe_external_business_id);
+    console.log(access_token);
+    const response = await axios.get(
+      `https://graph.facebook.com/v13.0/fbe_business/fbe_installs`,
+      {
+        params: {
+          fbe_external_business_id,
+          access_token,
+        },
+      }
+    );
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
