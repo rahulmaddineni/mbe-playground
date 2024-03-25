@@ -1,6 +1,9 @@
 # MBE PlayGround
 
-[Developer Docs](https://developers.facebook.com/docs/facebook-business-extension/fbe/get-started)
+Production: https://mbe-playground-app.onrender.com/
+
+[MBE Developer Docs](https://developers.facebook.com/docs/facebook-business-extension/fbe/get-started)
+
 
 ## Available Scripts
 
@@ -23,3 +26,13 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run server`
+
+Runs the NodeJS - Express Server. \
+Server will be running at [http://localhost:5002](http://localhost:5002)
+- Run with --https arg to enable https for localhost testing
+
+### `npm run dev`
+
+Runs both React & Express (build & server)
