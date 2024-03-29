@@ -10,6 +10,8 @@ const MBEManageRedirect: React.FC = () => {
   const [installInfo, setInstallInfo] = useState();
   const [displayInfo, setDisplayInfo] = useState();
   const [version, setVersion] = useState("v2");
+  const [expiresIn, setExpiresIn] = useState<number | null>(null);
+  const [isTokenExpanded, setIsTokenExpanded] = useState(false);
 
   const versions = ["v2", "v3"];
   const versionOptions = versions.map((version) => ({
@@ -60,9 +62,10 @@ const MBEManageRedirect: React.FC = () => {
   useEffect(() => {
     const hash = window.location.hash.substring(1);
     const params = new URLSearchParams(hash);
+    console.log(hash);
+
     const accessToken = params.get("access_token");
     const state = params.get("state");
-
     if (state) {
       const decodedState = JSON.parse(decodeURIComponent(state));
 
@@ -82,12 +85,37 @@ const MBEManageRedirect: React.FC = () => {
         // Get MBE installs
         getMBEInstalls(external_business_id, accessToken, v);
       }
+    } else {
+      // TODO: Error message
+      return;
+    }
+
+    const expiresIn = Number(params.get("expires_in"));
+    if (expiresIn) {
+      setExpiresIn(expiresIn);
     }
   }, [location]);
 
+  // Run timer for access token expiry
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setExpiresIn((expiresIn) => (expiresIn !== null ? expiresIn - 1 : null));
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <div className="manage-view">
-      <p>Token: {token}</p>
+      <div>
+        <p>Token: {isTokenExpanded ? token : `${token.slice(0, 10)}...`}</p>
+        <button onClick={() => setIsTokenExpanded(!isTokenExpanded)}>
+          {isTokenExpanded ? "Hide" : "Show"} Token
+        </button>
+        <p>Expires in: {expiresIn} seconds</p>
+      </div>
       <p>External Business ID: {externalBizID}</p>
       <div>
         <label htmlFor="version">MBE Version</label>
