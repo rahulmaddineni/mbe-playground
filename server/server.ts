@@ -22,8 +22,6 @@ app.get("/mbe/install_info", async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Invalid query parameters" });
   }
   try {
-    console.log(fbe_external_business_id);
-    console.log(access_token);
     const response = await axios.get(
       `https://graph.facebook.com/v13.0/fbe_business/fbe_installs`,
       {
@@ -33,7 +31,7 @@ app.get("/mbe/install_info", async (req: Request, res: Response) => {
         },
       }
     );
-    res.json(response.data);
+    res.json(response.data.data);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

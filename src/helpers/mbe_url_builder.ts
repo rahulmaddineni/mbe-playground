@@ -11,6 +11,15 @@ export const buildUrl = (extras: MBEExtrasConfig) => {
   if (appID === undefined) {
     return "";
   }
+  const {
+    setup: { external_business_id },
+  } = extras;
+  const state = encodeURIComponent(
+    JSON.stringify({
+      external_business_id,
+      version: "v3",
+    })
+  );
   const params = {
     client_id: appID,
     display: "page",
@@ -18,7 +27,7 @@ export const buildUrl = (extras: MBEExtrasConfig) => {
     response_type: "token",
     scope: "manage_business_extension",
     extras: JSON.stringify(extras),
-    state: extras.setup.external_business_id,
+    state,
   };
   const queryString = Object.entries(params)
     .map(

@@ -181,7 +181,7 @@ const MBEConfigForm: React.FC<Props> = () => {
       {formData && <JsonView data={formData} />}
       {loginUrl && (
         <button>
-          <a href={loginUrl}>Login</a>
+          <a href={loginUrl} target="_blank">Login</a>
         </button>
       )}
     </>
