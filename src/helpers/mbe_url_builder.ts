@@ -24,7 +24,7 @@ export const buildUrl = (extras: MBEExtrasConfig) => {
     client_id: appID,
     display: "page",
     redirect_uri: redirectUri,
-    response_type: "token",
+    response_type: "token,granted_scopes",
     scope: "manage_business_extension",
     extras: JSON.stringify(extras),
     state,

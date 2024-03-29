@@ -12,6 +12,7 @@ const MBEManageRedirect: React.FC = () => {
   const [version, setVersion] = useState("v2");
   const [expiresIn, setExpiresIn] = useState<number | null>(null);
   const [isTokenExpanded, setIsTokenExpanded] = useState(false);
+  const [grantedScopes, setGrantedScopes] = useState<string[]>([]);
 
   const versions = ["v2", "v3"];
   const versionOptions = versions.map((version) => ({
@@ -94,6 +95,9 @@ const MBEManageRedirect: React.FC = () => {
     if (expiresIn) {
       setExpiresIn(expiresIn);
     }
+
+    const grantedScopes = params.get("granted_scopes")?.split(",") || [];
+    setGrantedScopes(grantedScopes);
   }, [location]);
 
   // Run timer for access token expiry
@@ -115,6 +119,9 @@ const MBEManageRedirect: React.FC = () => {
           {isTokenExpanded ? "Hide" : "Show"} Token
         </button>
         <p>Expires in: {expiresIn} seconds</p>
+        {grantedScopes.map((scope) => (
+          <p key={scope}>{scope}</p>
+        ))}
       </div>
       <p>External Business ID: {externalBizID}</p>
       <div>
