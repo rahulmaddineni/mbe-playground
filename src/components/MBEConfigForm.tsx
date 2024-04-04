@@ -10,6 +10,7 @@ import {
 import Select from "react-select";
 import JsonView from "./JSONView.tsx";
 import { buildUrl } from "../helpers/mbe_url_builder.ts";
+import "../styles/configstyles.css";
 
 type Props = {};
 
@@ -105,83 +106,120 @@ const MBEConfigForm: React.FC<Props> = () => {
     setLoginUrl(url);
   };
 
+  const onHandleLogin = () => {
+    if (loginUrl) {
+      window.open(loginUrl, "_blank");
+    }
+  };
+
+  const selectStyles = {
+    control: (base) => ({
+      ...base,
+      width: "250px",
+    }),
+    singleValue: (base) => ({
+      ...base,
+      fontSize: "12px",
+    }),
+    option: (base) => ({
+      ...base,
+      fontSize: "12px",
+    }),
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(onHandleSubmit)}>
-        <div>
-          <label htmlFor="externalBusinessId">External Business ID</label>
-          <input
-            type="text"
-            id="externalBusinessId"
-            disabled={isRandomExtBizIDChecked}
-            {...register("extras.setup.external_business_id")}
-          />
-          <label htmlFor="randomExtBizID">Use Random ID</label>
-          <input
-            id="randomExtBizID"
-            type="checkbox"
-            {...register("formConfig.randomExtBizID")}
-          />
+        <div className="form-row">
+          <div>
+            <label htmlFor="externalBusinessId">External Business ID</label>
+            <input
+              type="text"
+              id="externalBusinessId"
+              disabled={isRandomExtBizIDChecked}
+              className="form-input"
+              {...register("extras.setup.external_business_id")}
+            />
+            <div className="random-external-id">
+              <span className="random-external-id-input">Use Random ID</span>
+              <input
+                id="randomExtBizID"
+                type="checkbox"
+                {...register("formConfig.randomExtBizID")}
+              />
+            </div>
+          </div>
+          <div>
+            <label htmlFor="timezone">Timezone</label>
+            <Select
+              id="timezone"
+              options={timezoneOptions}
+              defaultValue={timezoneOptions.find(
+                (option) => option.value === "America/Los_Angeles"
+              )}
+              onChange={handleTimezoneChange}
+              styles={selectStyles}
+            />
+          </div>
+          <div>
+            <label htmlFor="currency">Currency</label>
+            <Select
+              id="currency"
+              options={currencyCodeOptions}
+              defaultValue={currencyCodeOptions.find(
+                (option) => option.value === "USD"
+              )}
+              onChange={handleCurrencyChange}
+              styles={selectStyles}
+            />
+          </div>
         </div>
-        <div>
-          <label htmlFor="timezone">Timezone</label>
-          <Select
-            id="timezone"
-            options={timezoneOptions}
-            defaultValue={timezoneOptions.find(
-              (option) => option.value === "America/Los_Angeles"
-            )}
-            onChange={handleTimezoneChange}
-          />
+        <div className="form-row">
+          <div>
+            <label htmlFor="vertical">Vertical</label>
+            <Select
+              id="vertical"
+              options={verticalOptions}
+              defaultValue={verticalOptions.find(
+                (option) => option.value === BusinessVertical.ECOMMERCE
+              )}
+              onChange={handleVerticalChange}
+              styles={selectStyles}
+            />
+          </div>
+          <div>
+            <label htmlFor="channel">Channel</label>
+            <Select
+              id="channel"
+              options={channelOptions}
+              defaultValue={channelOptions.find(
+                (option) => option.value === MBEFlow.DEFAULT
+              )}
+              onChange={handleChannelChange}
+              styles={selectStyles}
+            />
+          </div>
+          <div>
+            <label htmlFor="businessName">Business Name</label>
+            <input
+              type="text"
+              id="businessName"
+              placeholder="Example Business"
+              className="form-input"
+              {...register("extras.business_config.business.name")}
+            />
+          </div>
         </div>
-        <div>
-          <label htmlFor="currency">Currency</label>
-          <Select
-            id="currency"
-            options={currencyCodeOptions}
-            defaultValue={currencyCodeOptions.find(
-              (option) => option.value === "USD"
-            )}
-            onChange={handleCurrencyChange}
-          />
+        <div className="submit-row">
+          <button type="submit" className="submit-button">
+            Configure MBE
+          </button>
         </div>
-        <div>
-          <label htmlFor="vertical">Vertical</label>
-          <Select
-            id="vertical"
-            options={verticalOptions}
-            defaultValue={verticalOptions.find(
-              (option) => option.value === BusinessVertical.ECOMMERCE
-            )}
-            onChange={handleVerticalChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="channel">Channel</label>
-          <Select
-            id="channel"
-            options={channelOptions}
-            defaultValue={channelOptions.find(
-              (option) => option.value === MBEFlow.DEFAULT
-            )}
-            onChange={handleChannelChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="businessName">Business Name</label>
-          <input
-            type="text"
-            id="businessName"
-            placeholder="Example Business"
-            {...register("extras.business_config.business.name")}
-          />
-        </div>
-        <button type="submit">Configure MBE</button>
       </form>
-      {formData && <JsonView data={formData} />}
+      {formData && <JsonView data={formData.extras} heading="MBE Extras" />}
       {loginUrl && (
-        <button>
-          <a href={loginUrl} target="_blank">Login</a>
+        <button className="submit-button" onClick={onHandleLogin}>
+          Login
         </button>
       )}
     </>
