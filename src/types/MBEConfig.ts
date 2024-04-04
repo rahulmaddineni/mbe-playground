@@ -50,6 +50,7 @@ export enum PageCardCtaButtonText {
 
 export type MBEConfig = {
   extras: MBEExtrasConfig;
+  scope: string;
 };
 
 export type MBEExtrasConfig = {

@@ -17,6 +17,8 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
+`HTTPS=true npm start` - runs HTTPS enabled localhost
+
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
@@ -30,8 +32,10 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ### `npm run server`
 
 Runs the NodeJS - Express Server. \
-Server will be running at [http://localhost:5002](http://localhost:5002)
+Server will be running at [http://localhost:3002](http://localhost:3002)
 - Run with --https arg to enable https for localhost testing
+
+Proxy enabled at port 3000, any calls to server will flow through 3000
 
 ### `npm run dev`
 

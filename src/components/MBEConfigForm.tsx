@@ -8,9 +8,14 @@ import {
   currencyCodeOptions,
 } from "../types/MBEConfig.ts";
 import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 import JsonView from "./JSONView.tsx";
-import { buildUrl } from "../helpers/mbe_url_builder.ts";
 import "../styles/configstyles.css";
+import { buildUrl } from "../helpers/mbe_url_builder.ts";
+import {
+  getScopeFromPermissionOptions,
+  permissionOptions,
+} from "../helpers/form_helper.ts";
 
 type Props = {};
 
@@ -46,6 +51,7 @@ const MBEConfigForm: React.FC<Props> = () => {
         },
         repeat: false,
       },
+      scope: "manage_business_extension",
     },
   });
 
@@ -125,6 +131,57 @@ const MBEConfigForm: React.FC<Props> = () => {
       ...base,
       fontSize: "12px",
     }),
+  };
+
+  const multiSelectStyles = {
+    multiValue: (base, state) => {
+      return state.data.isFixed ? { ...base, backgroundColor: "gray" } : base;
+    },
+    multiValueLabel: (base, state) => {
+      return state.data.isFixed
+        ? {
+            ...base,
+            fontWeight: "bold",
+            color: "white",
+            paddingRight: 6,
+            fontSize: "12px",
+          }
+        : { ...base, fontSize: "12px" };
+    },
+    multiValueRemove: (base, state) => {
+      return state.data.isFixed ? { ...base, display: "none" } : base;
+    },
+    valueContainer: (base) => ({
+      ...base,
+      flexWrap: "wrap",
+    }),
+  };
+
+  const orderOptions = (values) => {
+    return values
+      .filter((v) => v.isFixed)
+      .concat(values.filter((v) => !v.isFixed));
+  };
+
+  const [permissionValue, setPermissionValue] = useState(
+    orderOptions([permissionOptions[0]])
+  );
+  const handleChange = (newValue, actionMeta) => {
+    const { action, removedValue } = actionMeta;
+    switch (action) {
+      case "remove-value":
+      case "pop-value":
+        if (removedValue.isFixed) {
+          return;
+        }
+        break;
+      case "clear":
+        newValue = permissionOptions.filter((v) => v.isFixed);
+        break;
+    }
+    const options = orderOptions(newValue);
+    setPermissionValue(options);
+    setValue("scope", getScopeFromPermissionOptions(options));
   };
 
   return (
@@ -210,13 +267,28 @@ const MBEConfigForm: React.FC<Props> = () => {
             />
           </div>
         </div>
+        <div className="form-row">
+          <div>
+            <label htmlFor="channel">Permissions</label>
+            <CreatableSelect
+              isMulti
+              isClearable={permissionValue.some((v) => !v.isFixed)}
+              name="scope"
+              value={permissionValue}
+              onChange={handleChange}
+              options={permissionOptions}
+              styles={multiSelectStyles}
+              formatCreateLabel={(v) => `Add "${v}"`}
+            />
+          </div>
+        </div>
         <div className="submit-row">
           <button type="submit" className="submit-button">
             Configure MBE
           </button>
         </div>
       </form>
-      {formData && <JsonView data={formData.extras} heading="MBE Extras" />}
+      {formData && <JsonView data={formData} heading="MBE Config" />}
       {loginUrl && (
         <button className="submit-button" onClick={onHandleLogin}>
           Login
