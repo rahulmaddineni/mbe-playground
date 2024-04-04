@@ -1,47 +1,17 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useLocation } from "react-router-dom";
-import Select from "react-select";
 import JsonView from "./JSONView";
+import { InstallInfo } from "../types/MBEConfig";
 
 const MBEManageRedirect: React.FC = () => {
   const location = useLocation();
   const [token, setToken] = useState("");
   const [externalBizID, setExternalBizID] = useState("");
-  const [installInfo, setInstallInfo] = useState();
-  const [displayInfo, setDisplayInfo] = useState();
-  const [version, setVersion] = useState("v2");
+  const [installInfo, setInstallInfo] = useState<InstallInfo>();
   const [expiresIn, setExpiresIn] = useState<number | null>(null);
   const [isTokenExpanded, setIsTokenExpanded] = useState(false);
   const [grantedScopes, setGrantedScopes] = useState<string[]>([]);
-
-  const versions = ["v2", "v3"];
-  const versionOptions = versions.map((version) => ({
-    value: version,
-    label: version,
-  }));
-  const handleVersionChange = (selectedOption) => {
-    setVersion(selectedOption.value);
-    handleDisplayInfo(selectedOption.value);
-  };
-
-  const handleDisplayInfo = useCallback(
-    (v: string) => {
-      switch (v) {
-        case "v2":
-          if (installInfo) {
-            // const { installed_features, ...rest } = installInfo;
-            setDisplayInfo(installInfo);
-          }
-          return;
-        case "v3":
-          setDisplayInfo(installInfo);
-          return;
-        default:
-          setDisplayInfo(undefined);
-      }
-    },
-    [installInfo]
-  );
+  const [testCAPIEventCode, setTestCAPIEventCode] = useState<string>();
 
   const getMBEInstalls = useCallback(
     async (external_business_id: string, token: string, mbeVersion: string) => {
@@ -54,28 +24,43 @@ const MBEManageRedirect: React.FC = () => {
         return;
       }
       const data = await response.json();
-      setInstallInfo(data);
-      handleDisplayInfo(mbeVersion);
+      const { installed_features, ...rest } = data;
+      setInstallInfo(mbeVersion === "v3" ? data : rest);
     },
     [setInstallInfo]
   );
 
+  const sendTestCAPIEvent = async (pixelId: string, token: string) => {
+    setTestCAPIEventCode(null);
+    const response = await fetch("/mbe/send_test_capi_event", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        pixelId,
+        token,
+      }),
+    });
+
+    const data = await response.json();
+    if (data.test_event_code) {
+      setTestCAPIEventCode(data.test_event_code);
+    }
+  };
+
   useEffect(() => {
     const hash = window.location.hash.substring(1);
     const params = new URLSearchParams(hash);
-    console.log(hash);
 
     const accessToken = params.get("access_token");
     const state = params.get("state");
     if (state) {
       const decodedState = JSON.parse(decodeURIComponent(state));
 
-      const { external_business_id, version: v } = decodedState;
+      const { external_business_id, version } = decodedState;
       if (external_business_id) {
         setExternalBizID(external_business_id);
-      }
-      if (v) {
-        setVersion(v);
       }
       if (accessToken) {
         // Remove the token and state from the URL
@@ -84,7 +69,7 @@ const MBEManageRedirect: React.FC = () => {
         setToken(accessToken);
 
         // Get MBE installs
-        getMBEInstalls(external_business_id, accessToken, v);
+        getMBEInstalls(external_business_id, accessToken, version);
       }
     } else {
       // TODO: Error message
@@ -124,17 +109,13 @@ const MBEManageRedirect: React.FC = () => {
         ))}
       </div>
       <p>External Business ID: {externalBizID}</p>
+      <div>{installInfo && <JsonView data={installInfo} />}</div>
       <div>
-        <label htmlFor="version">MBE Version</label>
-        <Select
-          id="timezone"
-          options={versionOptions}
-          defaultValue={versionOptions.find(
-            (option) => option.value === version
-          )}
-          onChange={handleVersionChange}
-        />
-        {displayInfo && <JsonView data={displayInfo} />}
+        CAPI
+        <button onClick={() => sendTestCAPIEvent(installInfo.pixel_id, token)}>
+          Test CAPI Event
+        </button>
+        {testCAPIEventCode && <div>CAPI Event with test event code {testCAPIEventCode} sent</div>}
       </div>
     </div>
   );

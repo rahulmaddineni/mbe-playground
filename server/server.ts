@@ -4,6 +4,7 @@ import path from "path";
 import https from "https";
 import fs from "fs";
 import axios from "axios";
+import bodyParser from "body-parser";
 
 const app = express();
 // Replace with port used for local development, Don't forget to add https://localhost:{port}/manage redirect to Valid Oauth redirect list in FB Login app settings
@@ -11,6 +12,9 @@ const port = process.env.PORT || 3002;
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../build")));
+
+// Parse JSON
+app.use(bodyParser.json());
 
 // API
 app.get("/mbe/install_info", async (req: Request, res: Response) => {
@@ -23,7 +27,7 @@ app.get("/mbe/install_info", async (req: Request, res: Response) => {
   }
   try {
     const response = await axios.get(
-      `https://graph.facebook.com/v13.0/fbe_business/fbe_installs`,
+      `https://graph.facebook.com/v19.0/fbe_business/fbe_installs`,
       {
         params: {
           fbe_external_business_id,
@@ -31,7 +35,61 @@ app.get("/mbe/install_info", async (req: Request, res: Response) => {
         },
       }
     );
-    res.json(response.data.data);
+    res.json(response.data.data[0]);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.post("/mbe/send_test_capi_event", async (req: Request, res: Response) => {
+  const { pixelId, token } = req.body;
+  const eventData = [
+    {
+      event_name: "Purchase",
+      event_time: 1711746562,
+      user_data: {
+        em: [
+          "309a0a5c3e211326ae75ca18196d301a9bdbd1a882a4d2569511033da23f0abd",
+        ],
+        ph: [
+          "254aa248acb47dd654ca3ea53f48c2c26d641d23d7e2e93a1ec56258df7674c4",
+          "6f4fcb9deaeadc8f9746ae76d97ce1239e98b404efe5da3ee0b7149740f89ad6",
+        ],
+        client_ip_address: "123.123.123.123",
+        client_user_agent: "MBE_TEST_USER_AGENT",
+        fbc: "fb.1.1554763741205.AbCdEfGhIjKlMnOpQrStUvWxYz1234567890",
+        fbp: "fb.1.1558571054389.1098115397",
+      },
+      custom_data: {
+        currency: "usd",
+        value: 123.45,
+        contents: [
+          {
+            id: "product123",
+            quantity: 1,
+            delivery_category: "home_delivery",
+          },
+        ],
+      },
+      event_source_url: "https://mbe-playground-app.onrender.com/",
+      action_source: "website",
+    },
+  ];
+  const randomNum = Math.floor(Math.random() * 10000); // generates a random number between 0 and 9999
+  const paddedNum = String(randomNum).padStart(4, "0"); // converts the number to a string and pads it with zeros to get 4 digits
+  const testEventCode = `Test-${paddedNum}`;
+
+  try {
+    const response = await axios.post(
+      `https://graph.facebook.com/v19.0/${pixelId}/events`,
+      {
+        data: eventData,
+        test_event_code: testEventCode,
+        access_token: token,
+      }
+    );
+
+    res.json({ ...response.data, test_event_code: testEventCode });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

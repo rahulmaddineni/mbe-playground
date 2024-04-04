@@ -137,6 +137,37 @@ export type MBEFlowConfigData = {
   use_minimal_onboarding?: boolean;
 };
 
+export type InstallInfo = {
+  business_manager_id: string;
+  onsite_eligible: boolean;
+  pixel_id: string;
+  profiles: string[];
+  ad_account_id: string;
+  catalog_id: string;
+  pages: string[];
+  token_type: string;
+  installed_features: InstalledFeature[];
+};
+
+export type InstalledFeature = {
+  feature_instance_id: string;
+  feature_type: string;
+  connected_assets: ConnectedAssets;
+  additional_info: AdditionalInfo;
+};
+
+export type ConnectedAssets = {
+  ad_account_id: string;
+  catalog_id?: string;
+  page_id: string;
+  pixel_id: string;
+};
+
+export type AdditionalInfo = {
+  onsite_eligible: boolean;
+  pixel_is_consolidated_container: boolean;
+};
+
 export const Timezones: string[] = [
   "Africa/Abidjan",
   "Africa/Accra",
