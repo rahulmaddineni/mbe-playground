@@ -49,6 +49,12 @@ const MBEManageRedirect: React.FC = () => {
     }
   };
 
+  const handleDebugToken = () => {
+    const DEBUG_BASE_URL =
+      "https://developers.facebook.com/tools/debug/accesstoken/";
+    window.open(`${DEBUG_BASE_URL}?access_token=${token}`, "_blank");
+  };
+
   useEffect(() => {
     const hash = window.location.hash.substring(1);
     const params = new URLSearchParams(hash);
@@ -104,6 +110,9 @@ const MBEManageRedirect: React.FC = () => {
           {isTokenExpanded ? "Hide" : "Show"} Token
         </button>
         <p>Expires in: {expiresIn} seconds</p>
+        <button disabled={!token} onClick={handleDebugToken}>
+          Debug Token
+        </button>
         {grantedScopes.map((scope) => (
           <p key={scope}>{scope}</p>
         ))}
@@ -115,7 +124,9 @@ const MBEManageRedirect: React.FC = () => {
         <button onClick={() => sendTestCAPIEvent(installInfo.pixel_id, token)}>
           Test CAPI Event
         </button>
-        {testCAPIEventCode && <div>CAPI Event with test event code {testCAPIEventCode} sent</div>}
+        {testCAPIEventCode && (
+          <div>CAPI Event with test event code {testCAPIEventCode} sent</div>
+        )}
       </div>
     </div>
   );
