@@ -1,6 +1,6 @@
 import { MBEExtrasConfig } from "../types/MBEConfig.ts";
 
-export const buildUrl = (extras: MBEExtrasConfig) => {
+export const buildUrl = (extras: MBEExtrasConfig, scope: string) => {
   const baseUrl = "https://facebook.com/dialog/oauth";
   const redirectUri =
     (process.env.NODE_ENV === "production"
@@ -18,6 +18,7 @@ export const buildUrl = (extras: MBEExtrasConfig) => {
     JSON.stringify({
       external_business_id,
       version: "v3",
+      scope,
     })
   );
   const params = {
@@ -25,7 +26,7 @@ export const buildUrl = (extras: MBEExtrasConfig) => {
     display: "page",
     redirect_uri: redirectUri,
     response_type: "token,granted_scopes",
-    scope: "manage_business_extension",
+    scope,
     extras: JSON.stringify(extras),
     state,
   };

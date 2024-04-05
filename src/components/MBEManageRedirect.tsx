@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import JsonView from "./JSONView";
 import { InstallInfo } from "../types/MBEConfig";
+import "../styles/redirectstyles.css";
 
 const MBEManageRedirect: React.FC = () => {
   const location = useLocation();
@@ -12,6 +13,7 @@ const MBEManageRedirect: React.FC = () => {
   const [isTokenExpanded, setIsTokenExpanded] = useState(false);
   const [grantedScopes, setGrantedScopes] = useState<string[]>([]);
   const [testCAPIEventCode, setTestCAPIEventCode] = useState<string>();
+  const [scopes, setScopes] = useState<string[]>([]);
 
   const getMBEInstalls = useCallback(
     async (external_business_id: string, token: string, mbeVersion: string) => {
@@ -64,18 +66,22 @@ const MBEManageRedirect: React.FC = () => {
     if (state) {
       const decodedState = JSON.parse(decodeURIComponent(state));
 
-      const { external_business_id, version } = decodedState;
+      const { external_business_id, version, scope } = decodedState;
       if (external_business_id) {
         setExternalBizID(external_business_id);
       }
       if (accessToken) {
         // Remove the token and state from the URL
-        window.location.hash = "";
+        // window.location.hash = "";
 
         setToken(accessToken);
 
         // Get MBE installs
         getMBEInstalls(external_business_id, accessToken, version);
+      }
+      if (scope) {
+        const permissions = scope.split(",");
+        setScopes(permissions);
       }
     } else {
       // TODO: Error message
@@ -113,9 +119,29 @@ const MBEManageRedirect: React.FC = () => {
         <button disabled={!token} onClick={handleDebugToken}>
           Debug Token
         </button>
-        {grantedScopes.map((scope) => (
-          <p key={scope}>{scope}</p>
-        ))}
+      </div>
+      <div className="badge-container">
+        <div className="badge-container-column">
+          <div>Requested Scopes</div>
+          {scopes.map((scope) => (
+            <span
+              key={scope}
+              className={`badge ${
+                grantedScopes.includes(scope) ? "badge-green" : "badge-red"
+              }`}
+            >
+              {scope}
+            </span>
+          ))}
+        </div>
+        <div className="badge-container-column">
+          <div>Granted Scopes</div>
+          {grantedScopes.map((scope, index) => (
+            <span key={index} className="badge badge-grey">
+              {scope}
+            </span>
+          ))}
+        </div>
       </div>
       <p>External Business ID: {externalBizID}</p>
       <div>{installInfo && <JsonView data={installInfo} />}</div>

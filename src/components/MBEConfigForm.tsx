@@ -100,7 +100,7 @@ const MBEConfigForm: React.FC<Props> = () => {
   }, [isRandomExtBizIDChecked, setValue]);
 
   const onHandleSubmit = (formData: FormProps) => {
-    const { extras } = formData;
+    const { extras, scope } = formData;
     // Set example business name if input is empty
     if (!extras.business_config.business.name) {
       formData.extras.business_config.business.name = "MBE Test Business";
@@ -108,7 +108,7 @@ const MBEConfigForm: React.FC<Props> = () => {
     setFormData(formData);
 
     // Set MBE Login URL
-    const url = buildUrl(extras);
+    const url = buildUrl(extras, scope);
     setLoginUrl(url);
   };
 
